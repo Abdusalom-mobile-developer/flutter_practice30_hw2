@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_practice30_hw2/pages/sign_up_page.dart';
 import 'package:ionicons/ionicons.dart';
 
 class SignInPage extends StatefulWidget {
@@ -15,6 +16,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  // Method that makes custom textField().
   Widget textFieldMaker(
       String label, String hint, TextEditingController controller) {
     return Column(
@@ -156,7 +158,9 @@ class _SignInPageState extends State<SignInPage> {
                                   color: Color(0xFF09736F),
                                   borderRadius: BorderRadius.circular(9)),
                               child: TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    
+                                  },
                                   child: Text(
                                     "Sign In",
                                     style: TextStyle(
@@ -242,7 +246,9 @@ class _SignInPageState extends State<SignInPage> {
                       width: 9,
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, SignUpPage.id);
+                      },
                       child: Text(
                         "Sign Up",
                         style: TextStyle(

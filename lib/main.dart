@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_practice30_hw2/pages/sign_in_page.dart';
+import 'package:flutter_practice30_hw2/pages/sign_up_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,6 +23,7 @@ class _MyAppState extends State<MyApp> {
       home: SignInPage(),
       routes: {
         SignInPage.id: (context) => SignInPage(),
+        SignUpPage.id: (context) => SignUpPage(),
       },
     );
   }
