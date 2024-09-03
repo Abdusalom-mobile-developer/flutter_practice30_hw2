@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_practice30_hw2/models/hive.dart';
+import 'package:flutter_practice30_hw2/models/user_info_classes.dart';
+import 'package:flutter_practice30_hw2/models/utils.dart';
+import 'package:flutter_practice30_hw2/pages/home_page.dart';
 import 'package:flutter_practice30_hw2/pages/sign_up_page.dart';
+import 'package:hive/hive.dart';
 import 'package:ionicons/ionicons.dart';
 
 class SignInPage extends StatefulWidget {
@@ -38,6 +43,7 @@ class _SignInPageState extends State<SignInPage> {
               border: Border(
                   bottom: BorderSide(color: Colors.grey[300]!, width: 2))),
           child: TextField(
+            controller: controller,
             style: TextStyle(color: Colors.black),
             decoration: InputDecoration(
                 contentPadding: EdgeInsets.only(
@@ -159,7 +165,17 @@ class _SignInPageState extends State<SignInPage> {
                                   borderRadius: BorderRadius.circular(9)),
                               child: TextButton(
                                   onPressed: () {
-                                    
+                                    Map<String, String> json =
+                                        Utils.toJsonSignInInfo(
+                                      UserSignInInfo(
+                                          email: _emailController.text.trim(),
+                                          password:
+                                              _passwordController.text.trim()),
+                                    );
+                                    HiveUsage.storeSignInUserInfo(json);
+                                    HiveUsage.storeData("isRegistered", "true");
+                                    Navigator.pushReplacementNamed(
+                                        context, HomePage.id);
                                   },
                                   child: Text(
                                     "Sign In",

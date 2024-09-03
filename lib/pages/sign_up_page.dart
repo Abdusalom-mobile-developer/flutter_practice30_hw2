@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_practice30_hw2/models/hive.dart';
+import 'package:flutter_practice30_hw2/models/user_info_classes.dart';
+import 'package:flutter_practice30_hw2/models/utils.dart';
+import 'package:flutter_practice30_hw2/pages/home_page.dart';
 import 'package:ionicons/ionicons.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -36,6 +40,7 @@ class _SignUpPageState extends State<SignUpPage> {
               border: Border(
                   bottom: BorderSide(color: Colors.grey[300]!, width: 2))),
           child: TextField(
+            controller: controller,
             style: TextStyle(color: Colors.black),
             decoration: InputDecoration(
                 contentPadding: EdgeInsets.only(
@@ -97,90 +102,106 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
           Expanded(
               child: Container(
+                alignment: Alignment.center,
                 padding: EdgeInsets.symmetric(horizontal: 30),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(45),
                         topRight: Radius.circular(45))),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    textFieldMaker("Email", "Enter Email", _emailController),
-                    textFieldMaker("Number", "Enter Number", _numberController),
-                    textFieldMaker(
-                        "Address", "Enter Address", _addressController),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Container(
-                      width: double.infinity,
-                      height: 55,
-                      decoration: BoxDecoration(
-                          color: Color(0xFF09736F),
-                          borderRadius: BorderRadius.circular(9)),
-                      child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            "Sign Up",
-                            style: TextStyle(color: Colors.white, fontSize: 19),
-                          )),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: [
-                        lineMaker(),
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: 15),
-                          child: Text(
-                            "OR",
-                            style: TextStyle(
-                                color: Colors.grey[400],
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      textFieldMaker("Email", "Enter Email", _emailController),
+                      textFieldMaker(
+                          "Number", "Enter Number", _numberController),
+                      textFieldMaker(
+                          "Address", "Enter Address", _addressController),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: 55,
+                        decoration: BoxDecoration(
+                            color: Color(0xFF09736F),
+                            borderRadius: BorderRadius.circular(9)),
+                        child: TextButton(
+                            onPressed: () {
+                              UserSignUpInfo info = UserSignUpInfo(
+                                email: _emailController.text.trim(),
+                                address: _addressController.text.trim(),
+                                phoneNumber: _numberController.text.trim(),
+                              );
+                              Map<String, String> json =
+                                  Utils.toJsonSignUpInfo(info);
+                              HiveUsage.storeSignUpUserInfo(json);
+                              HiveUsage.storeData("isRegistered", "true");
+                              Navigator.popAndPushNamed(context, HomePage.id);
+                            },
+                            child: Text(
+                              "Sign Up",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 19),
+                            )),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: [
+                          lineMaker(),
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 15),
+                            child: Text(
+                              "OR",
+                              style: TextStyle(
+                                  color: Colors.grey[400],
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
-                        ),
-                        lineMaker(),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 17,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Ionicons.logo_facebook,
-                              color: Colors.blue[900],
-                              size: 32,
-                            )),
-                        SizedBox(
-                          width: 25,
-                        ),
-                        IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Ionicons.logo_twitter,
-                              color: Colors.blue,
-                              size: 32,
-                            )),
-                        SizedBox(
-                          width: 25,
-                        ),
-                        IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Ionicons.logo_instagram,
-                              color: Colors.red,
-                              size: 32,
-                            ))
-                      ],
-                    )
-                  ],
+                          lineMaker(),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 17,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Ionicons.logo_facebook,
+                                color: Colors.blue[900],
+                                size: 32,
+                              )),
+                          SizedBox(
+                            width: 25,
+                          ),
+                          IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Ionicons.logo_twitter,
+                                color: Colors.blue,
+                                size: 32,
+                              )),
+                          SizedBox(
+                            width: 25,
+                          ),
+                          IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Ionicons.logo_instagram,
+                                color: Colors.red,
+                                size: 32,
+                              ))
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
               flex: 3),
